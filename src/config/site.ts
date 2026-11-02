@@ -1,7 +1,7 @@
 export const site = {
   name: { first: 'MOHAMED', last: 'SHERIF' },
   role: 'WEB DEVELOPER',
-  tagline: ['I BUILD DIGITAL EXPERIENCES', 'THAT MAKE AN IMPACT.'],
+  tagline: ['FROM CODE TO CREATION.', 'BUILDING THE FUTURE OF THE WEB.'],
   year: new Date().getFullYear(),
   portrait: {
     // Intrinsic size of the cleaned cutout, used to reserve layout space (no CLS).

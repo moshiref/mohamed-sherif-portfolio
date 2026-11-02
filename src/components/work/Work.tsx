@@ -16,7 +16,7 @@ const markets = Array.from(new Set(projects.map((p) => p.market).filter(Boolean)
 /**
  * Chapter three: Selected Work. Rises over the finished About scene, then
  * presents each real project as its own scene, in the fixed order of the
- * `projects` config (custom-domain client work first).
+ * `projects` config (commercial client work first).
  */
 export function Work() {
   const root = useRef<HTMLElement>(null)

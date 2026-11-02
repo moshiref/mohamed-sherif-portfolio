@@ -8,7 +8,7 @@ export interface Project {
   market?: string
   platform?: string
   description: string
-  /** 'client' = custom-domain commercial work, shown first. */
+  /** 'client' = commercial work for businesses, shown first. */
   group: 'client' | 'portfolio'
   /**
    * Real screenshots captured from the live site (public/images/work).
@@ -24,7 +24,7 @@ const shots = (slug: string) => ({
   mobile: `/images/work/${slug}-mobile.webp`,
 })
 
-/** Order is intentional: custom-domain client work first, then Vercel-hosted work. */
+/** Order is intentional: commercial client work first, then portfolios and platforms. */
 export const projects: Project[] = [
   {
     slug: 'besht-al-salem',
@@ -63,6 +63,18 @@ export const projects: Project[] = [
       'A corporate website for a German fibre-optic specialist, presenting planning, installation and service through a dark, technical visual language.',
     group: 'client',
     preview: shots('dawoud-telekommunikation'),
+  },
+  {
+    slug: 'hoor-al-ain',
+    name: 'Hoor Al Ain',
+    url: 'https://hor-two.vercel.app/',
+    domain: 'hor-two.vercel.app',
+    category: 'Childcare Center',
+    market: 'Saudi Arabia',
+    description:
+      'An Arabic website for a children’s hospitality centre in Riyadh, presenting its programmes and activities with online registration for families and childcare staff.',
+    group: 'client',
+    preview: shots('hoor-al-ain'),
   },
   {
     slug: 'noour-elgendy',
@@ -141,6 +153,6 @@ export const projects: Project[] = [
 ]
 
 export const workGroups = {
-  client: { label: 'Client Work', note: 'Commercial projects on custom domains' },
+  client: { label: 'Client Work', note: 'Commercial projects for businesses' },
   portfolio: { label: 'Portfolios & Platforms', note: 'Personal brands, education and web applications' },
 } as const

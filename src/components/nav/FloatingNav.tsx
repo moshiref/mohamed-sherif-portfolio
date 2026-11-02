@@ -162,6 +162,9 @@ function MobileNav({ visible }: Props) {
     }
   }, [visible, reduced])
 
+  // Section chosen inside the open sheet, waiting for the scroll lock to lift.
+  const pending = useRef<SectionId | null>(null)
+
   // Lock scroll and listen for Escape while the sheet is open.
   useEffect(() => {
     if (!open) return
@@ -173,12 +176,26 @@ function MobileNav({ visible }: Props) {
       lenis?.start()
       document.documentElement.style.overflow = ''
       window.removeEventListener('keydown', onKey)
+      // Only now can we scroll: Lenis ignores scrollTo() while stopped, which is
+      // why navigating straight from a tap inside the open sheet used to do nothing.
+      const id = pending.current
+      pending.current = null
+      if (id) navigate(id)
     }
-  }, [open, lenis])
+  }, [open, lenis, navigate])
 
   const go = (id: SectionId) => {
-    navigate(id)
-    if (isAvailable(id)) setOpen(false)
+    if (!isAvailable(id)) {
+      navigate(id) // shows the "coming soon" notice; the sheet stays open
+      return
+    }
+    if (!open) {
+      navigate(id)
+      return
+    }
+    // Repeat taps while the sheet closes just update the target: one navigation.
+    pending.current = id
+    setOpen(false)
   }
 
   return (
@@ -236,11 +253,7 @@ function MobileNav({ visible }: Props) {
 
       <div ref={bar} className={styles.capsule}>
         <Notice id={notice} />
-        <Mark
-          onClick={() => {
-            setOpen(false)
-            navigate('home')
-          }}
+        <Mark onClick={() => go('home')}
         />
         <span className={styles.current} aria-live="polite">
           <AnimatePresence mode="popLayout" initial={false}>
