@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Mohamed Sherif — Web Developer</title>
+    <meta
+      name="description"
+      content="Mohamed Sherif is a web developer building digital experiences that make an impact."
+    />
+    <meta name="theme-color" content="#050505" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:title" content="Mohamed Sherif — Web Developer" />
+    <meta property="og:description" content="I build digital experiences that make an impact." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Portrait is the LCP element: fetch the right size before JS boots. -->
+    <link rel="preload" as="image" type="image/webp" href="/images/portrait-960.webp" media="(max-width: 767px)" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" href="/images/portrait-1448.webp" media="(min-width: 768px)" fetchpriority="high" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Non-blocking: the preloader already waits on document.fonts.ready before revealing type. -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap"
+      />
+    </noscript>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="color:#fff;font-family:sans-serif;padding:2rem">Mohamed Sherif — Web Developer. Please enable JavaScript to view this experience.</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

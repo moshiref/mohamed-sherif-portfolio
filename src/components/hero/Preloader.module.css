@@ -1,0 +1,47 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-content: center;
+  gap: 14px;
+  background: var(--bg);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+  width: min(320px, 70vw);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--fg-muted);
+}
+
+.mask {
+  display: block;
+  overflow: hidden;
+}
+
+.meta {
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  position: relative;
+  display: block;
+  width: min(320px, 70vw);
+  height: 1px;
+  background: var(--line);
+  transform-origin: 50% 50%;
+}
+
+.bar {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--silver), var(--fg));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}

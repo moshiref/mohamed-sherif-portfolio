@@ -1,0 +1,307 @@
+/*
+ * Layer stack (back → front):
+ *   0 stage (WebGL / fallback)   1 vignette   2 portrait   3 copy   4 HUD   5 grain
+ * The sculpture's focal point and the portrait's centre share one x position
+ * (--focus-x), mirrored in getComposition(), so the chrome halo always sits
+ * behind the head and shoulders.
+ */
+.hero {
+  --focus-x: 68%;
+  --ph: min(94svh, 1448px);
+  position: relative;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 95% at 62% 42%, transparent 48%, rgba(0, 0, 0, 0.72) 100%),
+    linear-gradient(to top, var(--bg) 0%, rgba(5, 5, 5, 0.6) 12%, transparent 28%),
+    linear-gradient(to right, rgba(5, 5, 5, 0.55) 0%, transparent 42%);
+}
+
+/* ---------- Portrait ---------- */
+
+.portraitLayer {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  height: var(--ph);
+  /* Width from the photo's intrinsic aspect (734 × 1448), so nothing shifts on load. */
+  width: calc(var(--ph) * 0.5069);
+  left: calc(var(--focus-x) - var(--ph) * 0.2535);
+  pointer-events: none;
+}
+
+.portraitWrap {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Copy ---------- */
+
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+  padding-left: calc(var(--gutter) + 8px);
+  pointer-events: none;
+}
+
+.copy {
+  margin-top: -2svh;
+}
+
+.copyInner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ctas {
+  pointer-events: auto;
+}
+
+.name {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  /* Bounded by width and height so the name never collides with the portrait. */
+  font-size: clamp(50px, min(7.6vw, 14.5svh), 160px);
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  color: var(--fg);
+}
+
+.nameLine {
+  display: block;
+  white-space: nowrap;
+}
+
+.nameLast {
+  position: relative;
+  overflow: hidden;
+  /* Keep descender room inside the overflow mask. */
+  padding-bottom: 0.04em;
+  margin-bottom: -0.04em;
+}
+
+/* Polished-metal fill: a horizon line across every letter, like chrome reflecting a studio floor. */
+.chrome {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #eef1f6 34%,
+    #9aa3b3 50%,
+    #5f6776 54%,
+    #b9c1ce 72%,
+    #f2f4f8 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* A specular band clipped to the glyphs; GSAP sweeps it letter by letter. */
+.sheenChar {
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.95) 50%, transparent 62%) no-repeat;
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.role {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: clamp(22px, 3.2svh, 36px) 0 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-stretch: 125%;
+  font-size: clamp(13px, 1.25vw, 21px);
+  letter-spacing: 0.26em;
+  color: var(--fg);
+}
+
+.roleLine {
+  display: block;
+  width: clamp(36px, 4vw, 64px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--silver));
+  transform-origin: 0 50%;
+}
+
+.tagline {
+  margin: clamp(18px, 2.6svh, 28px) 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(13px, 1.02vw, 17px);
+  line-height: 1.75;
+  letter-spacing: 0.16em;
+  color: var(--fg-muted);
+}
+
+.lineMask {
+  display: block;
+  overflow: hidden;
+}
+.lineMask > span {
+  display: block;
+}
+.lineMask:last-child {
+  color: var(--fg);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(28px, 4.4svh, 48px);
+}
+
+/* ---------- Film grain ---------- */
+
+.grain {
+  position: absolute;
+  inset: -50%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(5) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -2%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- Compact desktop / landscape tablet ---------- */
+
+@media (max-width: 1180px) and (min-aspect-ratio: 5/4) {
+  .hero {
+    --focus-x: 69%;
+    --ph: min(88svh, 1448px);
+  }
+  .name {
+    font-size: clamp(50px, 7.6vw, 120px);
+  }
+}
+
+/* ---------- Stacked composition: phones and portrait tablets ---------- */
+
+@media (max-width: 767px), (max-aspect-ratio: 5/4) {
+  .hero {
+    --focus-x: 50%;
+    --ph: min(68svh, 150vw);
+    min-height: 600px;
+  }
+
+  .vignette {
+    background:
+      radial-gradient(120% 70% at 50% 38%, transparent 45%, rgba(0, 0, 0, 0.75) 100%),
+      linear-gradient(to top, var(--bg) 0%, rgba(5, 5, 5, 0.92) 16%, rgba(5, 5, 5, 0.7) 28%, transparent 48%);
+  }
+
+  .content {
+    align-items: stretch;
+    padding: clamp(64px, 9svh, 110px) 20px calc(104px + var(--safe-bottom));
+  }
+
+  .copy {
+    flex: 1;
+    margin-top: 0;
+  }
+
+  .copyInner {
+    height: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .name {
+    align-items: center;
+    /* "MOHAMED" is ~6em wide in this cut; keep it inside a 16px gutter. */
+    font-size: min(14vw, 9svh, 120px);
+    line-height: 0.88;
+  }
+
+  /* Copy may cross the bright chrome band here, so give it a soft dark halo. */
+  .role,
+  .tagline {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 0 2px rgba(0, 0, 0, 0.6);
+  }
+
+  .role {
+    gap: 12px;
+    margin-top: 16px;
+    font-size: clamp(11px, 3.1vw, 18px);
+    letter-spacing: 0.3em;
+  }
+  .roleLine {
+    width: 24px;
+  }
+
+  .tagline {
+    margin-top: auto;
+    font-size: clamp(11.5px, 3.2vw, 16px);
+    letter-spacing: 0.12em;
+    line-height: 1.7;
+  }
+
+  .ctas {
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ctas {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 300px;
+  }
+  .ctas > div > button {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
+}

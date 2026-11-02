@@ -1,0 +1,95 @@
+.hud {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.frame {
+  position: absolute;
+  inset: 22px;
+}
+.frame i {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(255, 255, 255, 0.28);
+  border-style: solid;
+  border-width: 0;
+}
+.frame .tl { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.frame .tr { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.frame .bl { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.frame .br { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+
+.meta {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: var(--fg-muted);
+}
+
+.dim {
+  color: var(--fg-dim);
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.topLeft {
+  top: 46px;
+  left: 50px;
+}
+
+.scroll {
+  right: 50px;
+  bottom: 50px;
+  writing-mode: vertical-rl;
+  gap: 16px;
+}
+
+.scroll[hidden] {
+  display: none;
+}
+
+.scrollLine {
+  position: relative;
+  width: 1px;
+  height: 56px;
+  overflow: hidden;
+  background: var(--line);
+}
+.scrollLine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--fg));
+  animation: drip 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes drip {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(100%); }
+}
+
+@media (max-width: 767px) {
+  .frame {
+    inset: 12px;
+  }
+  .topLeft {
+    top: 28px;
+    left: 26px;
+  }
+  .scroll {
+    display: none;
+  }
+}

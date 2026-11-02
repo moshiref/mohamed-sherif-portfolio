@@ -1,0 +1,86 @@
+@property --sweep {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg);
+  --fx: 68%;
+  --fy: 40%;
+  --d: min(62svh, 92vw);
+}
+
+.glow {
+  position: absolute;
+  left: var(--fx);
+  top: var(--fy);
+  width: calc(var(--d) * 2.2);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, rgba(40, 54, 80, 0.55), rgba(12, 18, 32, 0.25) 55%, transparent);
+}
+
+.ring,
+.orbit {
+  position: absolute;
+  left: var(--fx);
+  top: var(--fy);
+  translate: -50% -50%;
+  border-radius: 50%;
+}
+
+.ring {
+  width: var(--d);
+  aspect-ratio: 1;
+  transform: rotateX(58deg) rotateZ(-18deg);
+  background: conic-gradient(
+    from var(--sweep),
+    #1b1f27,
+    #f4f7fc 8%,
+    #59606d 16%,
+    #0d0f13 30%,
+    #9ea8b8 44%,
+    #4d8dff 50%,
+    #1a1d24 58%,
+    #e8edf5 72%,
+    #2a2f38 86%,
+    #1b1f27
+  );
+  mask: radial-gradient(closest-side, transparent 72%, #000 73.5%, #000 98%, transparent 100%);
+  -webkit-mask: radial-gradient(closest-side, transparent 72%, #000 73.5%, #000 98%, transparent 100%);
+  animation: sweep 14s linear infinite;
+  filter: drop-shadow(0 0 30px rgba(77, 141, 255, 0.15));
+}
+
+.orbit {
+  width: calc(var(--d) * 1.22);
+  aspect-ratio: 1;
+  border: 1px solid rgba(200, 210, 225, 0.25);
+  transform: rotateX(66deg) rotateZ(14deg);
+}
+
+@keyframes sweep {
+  to {
+    --sweep: 360deg;
+  }
+}
+
+@media (max-width: 1180px) and (min-aspect-ratio: 5/4) {
+  .fallback {
+    --fx: 69%;
+    --fy: 40%;
+    --d: min(58svh, 92vw);
+  }
+}
+
+@media (max-width: 767px), (max-aspect-ratio: 5/4) {
+  .fallback {
+    --fx: 50%;
+    --fy: 42%;
+    --d: min(46svh, 88vw);
+  }
+}

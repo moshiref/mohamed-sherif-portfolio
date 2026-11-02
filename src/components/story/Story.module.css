@@ -1,0 +1,17 @@
+.track {
+  position: relative;
+}
+
+.stage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Navigation target only: it marks where the About reveal has finished. */
+.anchor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}

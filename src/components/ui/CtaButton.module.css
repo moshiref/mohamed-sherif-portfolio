@@ -1,0 +1,125 @@
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  height: 54px;
+  padding: 0 8px 0 26px;
+  border-radius: 999px;
+  overflow: hidden;
+  isolation: isolate;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  transition: color 0.5s var(--ease-out), border-color 0.5s var(--ease-out);
+  will-change: transform;
+}
+
+/* Fill that sweeps up from below on hover. */
+.fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* Label roll: the visible text slides up while a copy rises in from below. */
+.label {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  line-height: 1.2;
+}
+.label > span,
+.label::after {
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+.label::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  transform: translateY(110%);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: transform 0.6s var(--ease-out), background-color 0.5s var(--ease-out), color 0.5s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .cta:hover .fill {
+    transform: translateY(0);
+  }
+  .cta:hover .label > span {
+    transform: translateY(-110%);
+  }
+  .cta:hover .label::after {
+    transform: translateY(0);
+  }
+  .cta:hover .icon {
+    transform: rotate(45deg);
+  }
+}
+
+.primary {
+  background: var(--fg);
+  color: #050505;
+}
+.primary .fill {
+  background: linear-gradient(180deg, #dfe6f2, #aeb8c8);
+}
+.primary .icon {
+  background: #050505;
+  color: var(--fg);
+}
+
+.ghost {
+  padding-right: 26px;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.ghost .fill {
+  background: var(--fg);
+}
+.ghost .icon {
+  display: none;
+}
+@media (hover: hover) {
+  .ghost:hover {
+    color: #050505;
+    border-color: var(--fg);
+  }
+}
+
+.cta:active {
+  scale: 0.97;
+}
+
+@media (max-width: 767px) {
+  .cta {
+    height: 50px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    gap: 10px;
+    padding-left: 20px;
+  }
+  .ghost {
+    padding-right: 20px;
+  }
+  .icon {
+    width: 36px;
+    height: 36px;
+  }
+}

@@ -1,0 +1,192 @@
+/*
+ * Chapter three. Sits above the pinned About scene (z-index) and starts life as
+ * a rounded portal that widens to full bleed (clip-path driven by GSAP).
+ */
+.work {
+  position: relative;
+  /* Above the About overlay (z 6) while it is held in place underneath. */
+  z-index: 10;
+  /* Phone frames and 3D tilts may overhang; never let them widen the page. */
+  overflow-x: clip;
+  background:
+    radial-gradient(80% 50% at 50% 0%, rgba(77, 141, 255, 0.07), transparent 70%),
+    var(--bg);
+  padding: 0 var(--gutter) clamp(80px, 14svh, 160px);
+  padding-left: calc(var(--gutter) + 8px);
+}
+
+/* Light seam along the portal's leading edge: the scan-line motif of the earlier chapters. */
+.seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(140, 180, 255, 0.6) 25%, #fff 50%, rgba(140, 180, 255, 0.6) 75%, transparent);
+  box-shadow: 0 0 16px rgba(77, 141, 255, 0.7);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+/* ---------- Opener ---------- */
+
+.opener {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  padding: clamp(80px, 12svh, 140px) 0 clamp(96px, 14svh, 150px);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 clamp(18px, 3svh, 32px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--fg-muted);
+}
+.eyebrowLine {
+  width: 36px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--silver));
+}
+
+.title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(56px, min(14vw, 23svh), 260px);
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+.titleLine {
+  display: block;
+  white-space: nowrap;
+}
+.titleChrome {
+  padding-left: 0.9em;
+}
+.chrome {
+  background: linear-gradient(180deg, #ffffff 0%, #eef1f6 34%, #9aa3b3 50%, #5f6776 54%, #b9c1ce 72%, #f2f4f8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.openerMeta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 420px);
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  margin-top: clamp(32px, 6svh, 72px);
+}
+
+.count {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.22em;
+  color: var(--fg);
+}
+.countNum {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(44px, 5vw, 84px);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+}
+.dim {
+  color: var(--fg-dim);
+}
+
+.lede {
+  margin: 0;
+  font-size: clamp(14.5px, 1.05vw, 17px);
+  line-height: 1.65;
+  color: var(--fg-muted);
+}
+
+/* ---------- Group dividers ---------- */
+
+.group {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 24px;
+  padding-top: 22px;
+  margin-top: clamp(40px, 8svh, 96px);
+}
+.groupRule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(77, 141, 255, 0.6), var(--line-strong) 30%, var(--line));
+  transform-origin: 0 50%;
+}
+.groupLabel {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 120%;
+  font-size: clamp(13px, 1.1vw, 17px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.groupNote,
+.groupRange {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* ---------- Stacked: phones and portrait tablets ---------- */
+
+@media (max-width: 767px), (max-aspect-ratio: 5/4) {
+  .work {
+    padding: 0 20px clamp(80px, 12svh, 140px);
+  }
+  .opener {
+    min-height: 100svh;
+    padding: 84px 0 120px;
+  }
+  .title {
+    font-size: min(17vw, 13svh);
+  }
+  .openerMeta {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .group {
+    grid-template-columns: 1fr auto;
+    gap: 8px 16px;
+  }
+  .groupNote {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seam {
+    display: none;
+  }
+}
