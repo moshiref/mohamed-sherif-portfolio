@@ -27,6 +27,19 @@ const shots = (slug: string) => ({
 /** Order is intentional: commercial client work first, then portfolios and platforms. */
 export const projects: Project[] = [
   {
+    slug: 'zawya-gallery',
+    name: 'Zawya Gallery',
+    url: 'https://zawya-gallery.com/',
+    domain: 'zawya-gallery.com',
+    category: 'Furniture E-commerce',
+    market: 'Egypt',
+    platform: 'Shopify',
+    description:
+      'A professional Shopify store for a modern furniture brand, presenting TV units, shoe cabinets and living-room tables through a warm, editorial Arabic shopping experience.',
+    group: 'client',
+    preview: shots('zawya-gallery'),
+  },
+  {
     slug: 'besht-al-salem',
     name: 'Besht Al Salem',
     url: 'https://besht-alsalem.com/',
@@ -85,6 +98,17 @@ export const projects: Project[] = [
     description: 'A cinematic portfolio for a visual artist working across AI video, UGC and creative design.',
     group: 'portfolio',
     preview: shots('noour-elgendy'),
+  },
+  {
+    slug: 'mahmoud-taher',
+    name: 'Mahmoud Taher Portfolio',
+    url: 'https://mahmoudtaher.vercel.app/',
+    domain: 'mahmoudtaher.vercel.app',
+    category: 'Portfolio Website',
+    description:
+      'A bold portfolio for a creative visual producer, showcasing product photography, reels production, UGC and event work.',
+    group: 'portfolio',
+    preview: shots('mahmoud-taher'),
   },
   {
     slug: 'ramy-said-eid',
